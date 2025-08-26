@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <title>Saravanan Portfolio</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <style>
+            :root{
+                --bg:#0a0c0f;
+                --fg:#e6eaee;
+                --muted:#a7b0bb;
+                --card:#111418;
+                --accent:#2cc3ff;
+                --accent-2:#7b61ff;
+                --chip-bg:#1e2330;
+                --chip-fg:#9ed8ff;
+                --label-bg:#1aa0ff;
+            }
+            *{box-sizing: border-box;}
+            html, body{height: 100%;}
+            body{
+                margin:0;
+                font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+                background: var(--bg);
+                color: var(--fg);
+                line-height: 1.55;
+                overflow-x: hidden;
+            }
+            .backdrop{
+                position: fixed;inset: 0;z-index:-2; pointer-events: none;
+                background: radial-gradient(1200px 650px at 15% 75%, rgba(44,195,255,.22),transparent 60%),
+                    radial-gradient(900px 600px at 70% 35%, rgba(123,97,255,.22),transparent 60%),
+                    radial-gradient(700px 500px at 85% 85%, rgba(44,196,225,.22),transparent 60%),#0a0c0f;
+            }
+            .wrap{
+                max-width: 1200px; margin: 0 auto;
+                padding: 28px clamp(16px,4vw,40px);
+            }
+            header{
+                display: flex;
+                align-items: center;
+                justify-content: space-between; gap: 16px;
+                margin-bottom: 28px;
+                position: sticky;
+                top: 0;
+                z-index: 100;
+                background: rgba(10,12,15,0.95);
+                backdrop-filter: blur(8px);
+                box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+                padding-top: 12px;
+                padding-bottom: 12px;
+            }
+            .chip{
+                text-transform: uppercase;letter-spacing:.12em;font-weight: 700;font-size: 12px;
+                color: var(--chip-fg);
+                background: linear-gradient(180deg, rgba(46,60,82,.35), rgba(7,9,12,.6));
+                border: 1px solid rgba(158,216,255,.22);
+                padding: 10px 14px; border-radius: 8px; backdrop-filter: blur(6px);
+            }
+            nav{
+                display:flex; gap: 40px;align-items: center;
+            }
+            nav a{
+                position: relative;text-decoration: none; color: #cdd5df;font-size: 14px;
+                letter-spacing: .1em;text-transform: uppercase;
+                transition: color 0.2s;
+            }
+            nav a:after{
+                content:"" ;position: absolute;left: 0;right: 100%; bottom: -8px;
+                height: 2px;
+                background: linear-gradient(90deg, var(--accent),var(--accent-2));
+                transition: right .25s ease;
+            }
+            nav a:hover,
+            nav a:focus {
+                color: var(--accent);
+            }
+            nav a:hover:after{right:0;}
+            .hero{
+                display:grid;
+                grid-template-columns: 1.1fr .9fr;
+                align-items: center;
+                gap: 40px;
+                min-height: 70vh;
+                background: linear-gradient(180deg, rgba(255,255,255,.02),rgba(255,255,255,0)40%);
+                border-radius: 24px;
+                padding: 16px;
+            }
+            .intro{
+                padding:clamp(6px,1vw,10px) clamp(4px,1vw,8px);
+            }
+            .intro .hello{color: #9ddcff;
+                font-weight: 700;
+                letter-spacing: .18em;
+                font-size: 12px;
+                margin: 18px 0 0 0;
+                opacity: .9;
+            }
+            .intro h1{
+                margin:8px 0;
+                font-weight: 900;
+                line-height: 1.02;
+                font-size: 38px;
+                text-wrap:balance;
+            }
+            .accent-fade{
+                background: linear-gradient(90deg,#fff,#c1d9ff 55%, #9ac1ff 100%);
+                -webkit-background-clip: text;background-clip: text;color: transparent;
+            }
+            .role{
+                display: inline-block;
+                margin: 18px 0px 20px;
+                font-weight: 900;
+                letter-spacing:.09em;
+                font-size: 12px;
+                color:#e8f6ff;
+                padding: 10px 14px;
+                border-radius: 6px;
+                background: linear-gradient(180deg, #1aa0ff 0%, #7b61ff 100%);
+                box-shadow: 0 6px 24px rgba(26,160,255,.45);
+            }
+            .intro p{max-width: 62ch;
+                color: var(--muted);
+                margin: 0 0 28px;
+            }
+            .hero-visual{ position: relative;}
+            .hero-img{
+                width:min(520px,100%);
+                aspect-ratio: 4/5;
+                object-fit: cover;
+                border-radius: 24px;
+                display: block;
+                margin-left: auto;
+                filter:grayscale(100%);
+                box-shadow: 0 30px 60px rgba(0,0,0,.55);
+                -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0,0,0,.2) 10%,black 35%);
+                mask-image: linear-gradient(90deg, transparent 0%, rgba(0,0,0,.2) 10%,black 35%);
+            }
+            .hero-visual:after{
+                content: "";
+                position: absolute;
+                inset: -18px -28px -18px -28px;
+                z-index:-1;
+                border-radius: 32px;
+                background: radial-gradient(60% 60% at 75% 35%, rgba( 123,97,255,.5), transparent 60%),
+                            radial-gradient(60% 60% at 30% 70%, rgba( 44,195,255,.55), transparent 60%);
+                filter: blur(26px), opacity(.8);
+            }
+            @media(max-width:980px){
+                .hero{grid-template-columns: 1fr;
+                gap: 28px;}
+                .hero-visual{order:-1}
+                .intro h1{font-size: clamp(36px, 10vw, 72px);}
+                header{
+                    flex-direction: column;
+                    align-items: stretch;
+                    gap: 10px;
+                }
+                nav{
+                    justify-content: center;
+                    gap: 24px;
+                }
+            }
+            .bio{
+                align-items: center;
+                position: relative;
+                margin: 60px 0 40px;
+                padding: clamp(20px,4vw,44px);
+                border-radius: 24px;
+                box-shadow: inset 0 1px 0 ;
+                background: linear-gradient(135deg, #11111129, #1a1a1a);
+            }
+            .bio h2{
+                margin: 0 0 12px;
+                font-size: 35px;
+                font-weight: 300;
+            }
+            .bio .hline{
+                width:min(280px, 50%);
+                height: 8px;
+                border-radius: 8px;
+                background: linear-gradient(90deg,var(--accent),var(--accent-2));
+                margin:14px 0 24px;
+            }
+            .bio p{ color: var(--muted); max-width: 70ch;}
+            .bio .para{ margin: 0 0 18px;}
+            .bio h3{margin:28px 0 16px;
+                font-size: 26px;}
+            .skills{
+                display: flex; flex-wrap: wrap;gap: 14px 20px;
+            }
+            .skills i{ 
+                align-items: center;
+                font-size: 50px; color: #00aeff; margin-bottom: 8px;}
+            .tag{
+                padding: 12px 18px;
+                border-radius: 999px;
+                border: 1px solid rgba(255,255,255,.16);
+                text-transform: uppercase;
+            }
+            .education{
+                padding: 40px;
+                margin: 30px auto;
+                background:linear-gradient(135deg,#11111129,#1a1a1a);
+                border-radius: 20px;
+                color: #e6eaee;
+                max-width: 100%;
+            }
+            .edu-year{
+                border: 2px solid;
+                font-size: 80px;
+                font-weight: 700;
+                color: rgba(255, 255, 255, 0.5);
+                text-align: center;
+                margin-bottom: 20px;
+                border-radius: 25px;
+            }
+            .education h2{
+                font-size: 50px;
+                color: #00aeff;
+                margin-bottom: 20px;
+                border-bottom: 2px;
+                display: inline-block;
+                padding-bottom: 5px;
+                text-transform: uppercase;
+            }
+            .intro-text{
+                font-style: italic;
+                font-size: 20px;
+                color: #ffffffd3;
+            }
+            .edu-item{
+                margin-bottom: 20px;
+            }
+            .edu-item h3{
+                font-size: 38px;
+                color: #0af;
+            }
+            .edu-item p{
+                font-size: 20px;
+                color: #aaa;
+                font-style: italic
+            }
+            .contact{
+                padding: 50px 20px;
+            }
+            .contact h2{
+                font-size: 36px;
+                margin-bottom: 10px;
+            }
+            .sub-text{
+                font-style: italic;
+                color: rgb(222, 144, 240);
+                margin-bottom: 20px;
+            }
+            .contact-container{
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 40px;
+            }
+            .contact-box{
+                background: #18557378;
+                padding: 20px;
+                border-radius: 20px;
+                width: 270px;
+                box-shadow: 0 0 10px rgba(0,170,255,0.3);
+                transition: transform 0.3s ease, box-shadow 0.3s;
+                text-align: center;
+                cursor: pointer;
+                text-decoration: none;
+                color: inherit;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .contact-box:hover{
+                transform: scale(1.05);
+                box-shadow: 0 0 20px rgba(0,170,255,0.5);
+            }
+            .contact-box i{
+                font-size: 40px;
+                color: #00aaff;
+                margin-bottom: 15px;
+            }
+            .form-container{
+                margin-top: 50px;
+                max-width: 500px;
+                margin-left: auto;
+                margin-right: auto;
+                background-color: rgba(255,255,255 , 0.05);
+                padding: 30px;
+                border-radius: 15px;
+                box-shadow: 0 0 15px rgba(0,170,255,0.3);
+                transition: background 0.5s ease;
+            }
+            .form-container:hover{
+                transform:scale(1.02);
+            }
+            .form-container h2{
+                margin-bottom: 20px;
+                color: #00aaff;
+            }
+            .form-container form{
+                display: flex;
+                flex-direction: column;
+            }
+            .form-container input,
+            .form-container textarea{
+                margin-bottom: 15px;
+                padding: 12px;
+                border-radius: 8px;
+                font-size: 16px;
+                border: 1px solid #ccc;
+            }
+            .form-container textarea{
+                height: 120px
+            }
+            .form-container button{
+                padding: 12px;
+                background-color: #1b40ae;
+                color: white;
+                font-size: 16px;
+                border-radius: 20px;
+                box-shadow: 0 0 30px rgba(0,170,255,0.3);
+                cursor: pointer;
+                transition: background 0.3s ease;
+                border: none;
+            }
+            .form-container button:hover{
+                background: #0088cc;
+            }
+            .projects{
+                background: #18557378;
+                padding: 20px;
+                margin-top: 150px;
+                margin-bottom: 150px;
+                border-radius: 20px;
+                width: 100%;
+                box-shadow: 0 0 10px rgb(255, 140, 0);
+                transition: transform 0.3s ease;
+                text-align: center;
+            }
+            .projects i{
+                font-size: 40px;
+            }
+            .projects:hover{
+                transform:scale(1.02);
+            }
+            footer {
+                text-align: center;
+                color: #a7b0bb;
+                padding: 24px 0 12px 0;
+                font-size: 15px;
+                letter-spacing: .05em;
+                border-top: 1px solid #222;
+                margin-top: 60px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="backdrop"></div>
+        <div class="wrap">
+            <header>
+                <div class="chip" aria-label="Portfolio Type">Student Portfolio</div>
+                <nav aria-label="Primary">
+                    <a href="#about">Myself</a>
+                    <a href="#Education">Education</a>
+                    <a href="#projects">Projects</a>
+                    <a href="#contact">Contact</a>
+                </nav>
+            </header>
+            <main class="hero">
+                <section class="intro">
+                    <p class="hello">Hello!</p>
+                    <h1>I'm <span class="accent-fade">Saravanan</span></h1>
+                    <div class="role">Frontend Developer</div>
+                    <p>
+                        Passionate about turning ideas into visuals, I love experimenting with design, words, and media to create content that inspires and connects people. As a student, I believe every project is a chance to learn, grow, and create something meaningful.
+                    </p>
+                </section>
+                <aside class="hero-visual">
+                    <img class="hero-img" alt="Portrait of Saravanan, grayscale" src="mypic.jpg">
+                </aside>
+            </main>
+            <section id="about" class="bio" aria-labelledby="bio-title">
+                <h2 id="bio-title">My Biography</h2>
+                <div class="hline" aria-hidden="true"></div>
+                <p class="para">
+                    I'm a student, lifelong learner, and frontend developer who enjoys building clean, accessible interfaces. My focus is on crafting responsive layouts, reusable components, and smooth user experiences.
+                </p>
+                <p class="para">
+                    Beyond code, I'm curious about design systems, performance, and how small details shape the way people feel when they use a product.
+                </p>
+                <h3>Skills & Interests</h3>
+                <div class="skills" role="list">
+                    <span class="tag" role="listitem"><i class="fa-brands fa-html5"></i><br>HTML</span>
+                    <span class="tag" role="listitem"><i class="fa-brands fa-css3-alt"></i><br>CSS</span>
+                    <span class="tag" role="listitem"><i class="fa-brands fa-js"></i><br>JavaScript</span>
+                    <span class="tag" role="listitem"><i class="fa-brands fa-python"></i><br>Python</span>
+                    <span class="tag" role="listitem"><i class="fa-solid fa-database"></i><br>DSA</span>
+                    <span class="tag" role="listitem"><i class="fa-solid fa-photo-film"></i><br>Editing</span>
+                    <span class="tag" role="listitem"><i class="fa-solid fa-file-word"></i><br>MS Word</span>
+                    <span class="tag" role="listitem"><i class="fa-solid fa-table"></i><br>MS Excel</span>
+                    <span class="tag" role="listitem"><i class="fa-solid fa-pen-nib"></i><br>Design</span>
+                    <span class="tag" role="listitem"><i class="fa-solid fa-comments"></i><br>Communication</span>
+                </div>
+            </section>
+            <section id="Education" class="education">
+                <div class="edu-year">2024 - 2027</div>
+                <h2>Education</h2>
+                <p class="intro-text">
+                    Hi, I'm Saravanan - a student, learner, and frontend developer passionate about creating clean, modern, and user-friendly web experiences.
+                </p>
+                <div class="edu-item">
+                    <h3>High School</h3>
+                    <p><b>Isha Vidhya Matric Higher Secondary School</b><br>
+                    Completed my primary and secondary education with a strong foundation in academics and discipline, actively participated in cultural programs, sports, and extra-curricular activities.<br>
+                    Built my early interest in technology and problem-solving during these years.</p>
+                </div>
+                <div class="edu-item">
+                    <h3>Bachelor Degree</h3>
+                    <p><b>Bachelor of Computer Application | Arignar Anna Govt Arts College</b><br>
+                    Pursued my degree in BCA, developing strong technical and analytical skills.<br>
+                    Learned the fundamentals of programming, web development, and problem-solving.</p>
+                </div>
+            </section>
+            <section id="projects" class="projects">
+                <h2>Projects</h2>
+                <i class="fa-solid fa-bell"></i>
+                <p>Not done yet.<br>Will be updated soon.</p>
+            </section>
+            <section id="contact" class="contact">
+                <h2>Get in Touch</h2>
+                <p class="sub-text">Let's Work Together</p>
+                <div class="contact-container">
+                    <a href="tel:6383986265" class="contact-box" aria-label="Call Saravanan">
+                        <i class="fa-solid fa-phone-volume"></i>
+                        <h3>Mobile</h3>
+                        <p>6383986265</p>
+                    </a>
+                    <a href="mailto:saravanansharvan852@gmail.com" class="contact-box" aria-label="Email Saravanan">
+                        <i class="fa-solid fa-envelope"></i>
+                        <h3>Email</h3>
+                        <p>saravanansharvan852@gmail.com</p>
+                    </a>
+                    <a href="https://www.linkedin.com/in/saravanan-p-a25627315" target="_blank" rel="noopener noreferrer" class="contact-box" aria-label="Saravanan on LinkedIn">
+                        <i class="fa-brands fa-linkedin"></i>
+                        <h3>LinkedIn</h3>
+                        <p>Saravanan </p>
+                    </a>
+                    <a href="https://maps.app.goo.gl/B5dSiGNXBX3jcTYH6" class="contact-box" aria-label="Location">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <h3>Address</h3>
+                        <p>Villupuram</p>
+                    </a>
+                </div>
+                <div class="form-container">
+                    <h2>Your Queries?</h2>
+                    <form>
+                        <input type="text" placeholder="Your Name" required>
+                        <input type="email" placeholder="Your Email" required>
+                        <textarea name="message" placeholder="Message"></textarea>
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
+            </section>
+            <footer>
+                &copy; 2025 Saravanan. All rights reserved.
+            </footer>
+        </div>
+    </body>
+</html>
+
